@@ -1,23 +1,28 @@
 #include <stdio.h>
 #include <math.h>
 
-// Function to calculate the length of a vector given its coordinates
-double vectorLength(int x1, int y1, int x2, int y2) {
-    int dx = x2 - x1; // Calculate the difference in x-coordinates
-    int dy = y2 - y1; // Calculate the difference in y-coordinates
-    double length = sqrt(dx * dx + dy * dy); // Calculate the length using the distance formula
-    return length; // Return the calculated length
+int countIntersectionPoints(int x1, int y1, int r1, int x2, int y2, int r2) {
+    // Calculate the distance between the centers of the circles
+    double distance = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+
+    // Check for no intersection or infinite intersection
+    if (distance > r1 + r2 || distance < fabs(r1 - r2))
+        return 0;
+    else if (distance == 0 && r1 == r2)
+        return -1;
+    else if (distance == r1 + r2 || distance == fabs(r1 - r2))
+        return 1;
+    else
+        return 2;
 }
 
 int main() {
-    int x1, y1, x2, y2;
-    printf("Enter the coordinates of the starting point (x1, y1): ");
-    scanf("%d %d", &x1, &y1);
-    printf("Enter the coordinates of the endpoint (x2, y2): ");
-    scanf("%d %d", &x2, &y2);
+    int x1, y1, r1, x2, y2, r2;
+    printf("Enter the coordinates and radii of the circles (x1, y1, r1, x2, y2, r2): ");
+    scanf("%d %d %d %d %d %d", &x1, &y1, &r1, &x2, &y2, &r2);
 
-    double result = vectorLength(x1, y1, x2, y2);
-    printf("The length of the vector: %.6f\n", result);
+    int result = countIntersectionPoints(x1, y1, r1, x2, y2, r2);
+    printf("The number of intersection points: %d\n", result);
 
     return 0;
 }
